@@ -1,0 +1,4 @@
+export enum STATUS_CODES {
+  CONFLICT = 'CONFLICT',
+  BAD_REQUEST = 'BAD_REQUEST',
+}

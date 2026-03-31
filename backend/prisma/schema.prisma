@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum ExecutionStatus {
+  OPEN
+  RESOLVED
+}
+
+enum WorkflowType {
+  THRESHOLD
+  VARIANCE
+}
+
+enum RecipientChannel {
+  IN_APP
+  EMAIL
+}
+
+model Workflow {
+  id           String       @id @default(uuid())
+  name         String
+  type         WorkflowType
+  attributes   Json
+  exitMessage  String
+  active       Boolean      @default(true)
+  snoozedUntil DateTime?
+  recipients   Recipient[]
+  executions   Execution[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model Recipient {
+  id             String           @id @default(uuid())
+  channel        RecipientChannel
+  recipientValue String
+  workflow       Workflow         @relation(fields: [workflowId], references: [id])
+  workflowId     String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+}
+
+model Execution {
+  id         String          @id @default(uuid())
+  status     ExecutionStatus
+  values     Json
+  workflow   Workflow        @relation(fields: [workflowId], references: [id])
+  workflowId String
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+}

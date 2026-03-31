@@ -1,0 +1,24 @@
+# Dependencias
+/node_modules
+
+/backend/dist
+/backend/node_modules
+
+/frontend/node_modules
+/frontend/.next
+
+# Archivos de compilación y caché
+.DS_Store
+
+# Archivos de entorno
+.env
+*.env.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Directorio del IDE
+.idea
